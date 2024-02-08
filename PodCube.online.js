@@ -102,7 +102,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	}
 
 
-(lib.Symbol2 = function(mode,startPosition,loop,reversed) {
+(lib.viewContainer = function(mode,startPosition,loop,reversed) {
 if (loop == null) { loop = true; }
 if (reversed == null) { reversed = false; }
 	var props = new Object();
@@ -115,16 +115,14 @@ if (reversed == null) { reversed = false; }
 
 	// Layer_1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#000000").ss(1,1,1).p("EgTEh+lMAmJAAAMAAAD9LMgmJAAAg");
+	this.shape.graphics.f().s("rgba(255,255,255,0)").ss(1,1,1).p("Ehc/hglMC5/AAAQBfAABDBEQBEBDAABfMAAAC5/QAABfhEBDQhDBEhfAAMi5/AAAQhfAAhDhEQhEhDAAhfMAAAi5/QAAhfBEhDQBDhEBfAAg");
+	this.shape.setTransform(618.15,618.15);
 
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#FFFFFF").s().p("EgTDB+mMAAAj9LMAmHAAAMAAAD9Lg");
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.Symbol2, new cjs.Rectangle(-123,-811.2,246.1,1622.4), null);
+}).prototype = getMCSymbolPrototype(lib.viewContainer, new cjs.Rectangle(-1,-1,1238.3,1238.3), null);
 
 
 (lib.orangebutton = function(mode,startPosition,loop,reversed) {
@@ -159,7 +157,7 @@ if (reversed == null) { reversed = false; }
 p.nominalBounds = new cjs.Rectangle(-62.9,-62.9,125.9,125.9);
 
 
-(lib.cont = function(mode,startPosition,loop,reversed) {
+(lib.viewMask = function(mode,startPosition,loop,reversed) {
 if (loop == null) { loop = true; }
 if (reversed == null) { reversed = false; }
 	var props = new Object();
@@ -170,16 +168,39 @@ if (reversed == null) { reversed = false; }
 	props.reversed = reversed;
 	cjs.MovieClip.apply(this,[props]);
 
+	// Layer_2 (mask)
+	var mask = new cjs.Shape();
+	mask._off = true;
+	mask.graphics.p("Ehc/BglQhfAAhEhDQhChDAAhfMAAAi5/QAAhfBChEQBEhCBfAAMC5/AAAQBfAABDBCQBDBEAABfMAAAC5/QAABfhDBDQhDBDhfAAg");
+
 	// Layer_1
+	this.viewContainer = new lib.viewContainer();
+	this.viewContainer.name = "viewContainer";
+	this.viewContainer.setTransform(-618.15,-618.15);
+
+	var maskedShapeInstanceList = [this.viewContainer];
+
+	for(var shapedInstanceItr = 0; shapedInstanceItr < maskedShapeInstanceList.length; shapedInstanceItr++) {
+		maskedShapeInstanceList[shapedInstanceItr].mask = mask;
+	}
+
+	this.timeline.addTween(cjs.Tween.get(this.viewContainer).wait(1));
+
+	// Layer_4
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("rgba(255,255,255,0)").ss(1,1,1).p("Ehc/hglMC5/AAAQBfAABDBEQBEBDAABfMAAAC5/QAABfhEBDQhDBEhfAAMi5/AAAQhfAAhDhEQhEhDAAhfMAAAi5/QAAhfBEhDQBDhEBfAAg");
-	this.shape.setTransform(618.15,618.15);
+	this.shape.graphics.f().s("#333333").ss(30,1,1).p("Ehc/hglMC5/AAAQBfAABDBDQBEBEAABfMAAAC5/QAABfhEBDQhDBEhfAAMi5/AAAQhfAAhEhEQhDhDAAhfMAAAi5/QAAhfBDhEQBEhDBfAAg");
 
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
 
+	// Layer_3_copy
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#333333").s().p("Ehc/BglQhfAAhEhDQhChDAAhfMAAAi5/QAAhfBChEQBEhCBfAAMC5/AAAQBfAABDBCQBDBEAABfMAAAC5/QAABfhDBDQhDBDhfAAg");
+
+	this.timeline.addTween(cjs.Tween.get(this.shape_1).wait(1));
+
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.cont, new cjs.Rectangle(-1,-1,1238.3,1238.3), null);
+}).prototype = getMCSymbolPrototype(lib.viewMask, new cjs.Rectangle(-633.1,-633.1,1266.3000000000002,1266.3000000000002), null);
 
 
 (lib.T_ = function(mode,startPosition,loop,reversed) {
@@ -200,11 +221,6 @@ if (reversed == null) { reversed = false; }
 	mask.setTransform(944.1,628.375);
 
 	// Layer_2
-	this.btn = new lib.orangebutton();
-	this.btn.name = "btn";
-	this.btn.setTransform(111.75,113);
-	new cjs.ButtonHelper(this.btn, 0, 1, 2, false, new lib.orangebutton(), 3);
-
 	this.model = new cjs.Text("PodCube Model", "bold 60px 'Dogica Pixel'");
 	this.model.name = "model";
 	this.model.lineHeight = 62;
@@ -271,47 +287,29 @@ if (reversed == null) { reversed = false; }
 	this.title.parent = this;
 	this.title.setTransform(940.1,178);
 
-	var maskedShapeInstanceList = [this.btn,this.model,this.planet,this.zone,this.region,this.locale,this.origin,this.integrity,this.date,this.title];
+	var maskedShapeInstanceList = [this.model,this.planet,this.zone,this.region,this.locale,this.origin,this.integrity,this.date,this.title];
 
 	for(var shapedInstanceItr = 0; shapedInstanceItr < maskedShapeInstanceList.length; shapedInstanceItr++) {
 		maskedShapeInstanceList[shapedInstanceItr].mask = mask;
 	}
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.title},{t:this.date},{t:this.integrity},{t:this.origin},{t:this.locale},{t:this.region},{t:this.zone},{t:this.planet},{t:this.model},{t:this.btn}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.title},{t:this.date},{t:this.integrity},{t:this.origin},{t:this.locale},{t:this.region},{t:this.zone},{t:this.planet},{t:this.model}]}).wait(1));
 
 	// Layer_3
+	this.btn = new lib.orangebutton();
+	this.btn.name = "btn";
+	this.btn.setTransform(111.75,113);
+	new cjs.ButtonHelper(this.btn, 0, 1, 2, false, new lib.orangebutton(), 3);
+
 	this.shape = new cjs.Shape();
 	this.shape.graphics.f("#FFFFFF").s().p("EiK/BfPQhgAAhDhEQhEhDAAhfMAAAi3RQAAhfBEhEQBDhDBgAAMEWAAAAQBfAABDBDQBEBEAABfMAAAC3RQAABfhEBDQhDBEhfAAg");
 	this.shape.setTransform(944.1,628.375);
 
-	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.btn}]}).wait(1));
 
 	this._renderFirstFrame();
 
 }).prototype = getMCSymbolPrototype(lib.T_, new cjs.Rectangle(31.5,18.9,1825.3,1219), null);
-
-
-(lib.Symbol3 = function(mode,startPosition,loop,reversed) {
-if (loop == null) { loop = true; }
-if (reversed == null) { reversed = false; }
-	var props = new Object();
-	props.mode = mode;
-	props.startPosition = startPosition;
-	props.labels = {};
-	props.loop = loop;
-	props.reversed = reversed;
-	cjs.MovieClip.apply(this,[props]);
-
-	// Layer_1
-	this.instance = new lib.Symbol2();
-	this.instance.setTransform(-1,-0.9);
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(4));
-
-	this._renderFirstFrame();
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-123.5,-811.6,245.1,1621.4);
 
 
 // stage content:
@@ -341,8 +339,8 @@ if (reversed == null) { reversed = false; }
 		};
 		
 		
-		
-		
+		var control = _this.viewMask
+		var container = control.viewContainer
 		
 		//DYNAMICALLY LOAD TRANSMISSIONS
 		var T_default = [];
@@ -382,7 +380,7 @@ if (reversed == null) { reversed = false; }
 					});
 		
 					T_default.push(_e);
-					_this.viewContainer.addChild(_e);
+					container.addChild(_e);
 				}
 			}
 		
@@ -390,63 +388,42 @@ if (reversed == null) { reversed = false; }
 		
 		_this.currentView = T_default
 		
-		// move the transmissions around
+		// Scroll Transmissions Box
 		createjs.Touch.enable(stage);
 		
-		var rec = _this.slider;
 		
-		/* WORKING SCROLL IMPLEMENTATION 1
-		var lastY; // Variable to store the last Y position of the mouse
-		
-		rec.on("mousedown", function(e) {
-		    lastY = stage.mouseY / stage.scaleY; // Store the initial Y position of the mouse
-		});
-		
-		rec.on("pressmove", function(e) {
-		    var currentY = stage.mouseY / stage.scaleY; // Get the current Y position of the mouse
-		    var deltaY = currentY - lastY; // Calculate the change in Y position
-		
-		    // Move each element in _this.currentView by deltaY
-		    for (let i = 0; i < _this.currentView.length; i++) {
-		        _this.currentView[i].y += deltaY;
-		    }
-		
-		    lastY = currentY; // Update the last Y position
-		});
-		
-		*/
-		
-		
+		//control.hitArea = container;
 		
 		var lastY; // Variable to store the last Y position of the mouse
 		var velocity = 0; // Variable to store the velocity of the drag
-		var friction = 0.95; // Variable to store the friction (damping)
-		var upperBoundary = _this.viewContainer.y;
-		var lowerBoundary = stage.canvas.height - _this.viewContainer.getBounds().height * _this.viewContainer.scaleY;
-		rec.on("mousedown", function (e) {
+		var friction = 0.85; // Variable to store the friction (damping)
+		var upperBoundary = container.y;
+		var lowerBoundary = stage.canvas.height - container.getBounds().height * container.scaleY;
+		
+		control.on("mousedown", function (e) {
 			lastY = stage.mouseY / stage.scaleY; // Store the initial Y position of the mouse
 			velocity = 0;
 		
 		});
 		
-		rec.on("pressmove", function (e) {
+		control.on("pressmove", function (e) {
 			var currentY = stage.mouseY / stage.scaleY; // Get the current Y position of the mouse
-			velocity += (currentY - lastY) * 0.3; // Add the change in Y position to the velocity
+			velocity += (currentY - lastY) * 0.4; // Add the change in Y position to the velocity
 			lastY = currentY; // Update the last Y position
 		});
 		
 		createjs.Ticker.on("tick", function () {
 			// Apply the velocity to viewContainer element
-			_this.viewContainer.y += velocity;
+			container.y += velocity;
 		
 			// Check if the viewContainer has moved beyond its boundaries
-			if (_this.viewContainer.y > upperBoundary) {
-				_this.viewContainer.y = upperBoundary;
+			if (container.y > upperBoundary) {
+				container.y = upperBoundary;
 				console.log('upper boundary hit')
 				velocity = 0;
-			} else if (_this.viewContainer.y < lowerBoundary) {
+			} else if (container.y < lowerBoundary) {
 				console.log('lower boundary hit')
-				_this.viewContainer.y = lowerBoundary;
+				container.y = lowerBoundary;
 				velocity = 0;
 			}
 		
@@ -464,24 +441,16 @@ if (reversed == null) { reversed = false; }
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
 
 	// Actions
-	this.viewContainer = new lib.cont();
-	this.viewContainer.name = "viewContainer";
-	this.viewContainer.setTransform(132.2,238.1);
+	this.viewMask = new lib.viewMask();
+	this.viewMask.name = "viewMask";
+	this.viewMask.setTransform(900.2,860.25);
 
-	this.timeline.addTween(cjs.Tween.get(this.viewContainer).wait(2));
-
-	// Layer_1
-	this.slider = new lib.Symbol3();
-	this.slider.name = "slider";
-	this.slider.setTransform(1665.45,897.15);
-	new cjs.ButtonHelper(this.slider, 0, 1, 2, false, new lib.Symbol3(), 3);
-
-	this.timeline.addTween(cjs.Tween.get(this.slider).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.viewMask).wait(2));
 
 	this._renderFirstFrame();
 
 }).prototype = p = new lib.AnMovieClip();
-p.nominalBounds = new cjs.Rectangle(1091.7,1045.1,695.8,662.4000000000001);
+p.nominalBounds = new cjs.Rectangle(1227.1,1187.1,306.3000000000002,306.3000000000002);
 // library properties:
 lib.properties = {
 	id: '46A5D1D197A275448B5D0C6F2A17AD0E',
