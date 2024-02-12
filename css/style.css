@@ -1,3 +1,92 @@
 body {
-background-color: #eeeeef
-};
+    background-color: #323232;
+    overflow: hidden;
+}
+
+
+
+@font-face {
+    font-family: "Dogica Pixel";
+    src: url("../fonts/dogicapixel/dogicapixel-webfont.woff2");
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: "Dogica Pixel";
+    src: url("../fonts/dogicapixel/dogicapixelbold-webfont.woff2");
+    speak: none;
+    font-style: normal;
+    font-weight: bold;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+#outerPage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: top;
+    align-items: center;
+}
+
+#P3_app {
+    align-content: center;
+    flex-grow:0;
+    padding:5vmin;
+    border: none;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+#P3_logo {
+    flex: 0 1 auto;
+    font-family: "Tilt Warp", sans-serif;
+    font-size:10vmin;
+    color:#fcfcfc;
+}
+
+
+
+.p3sub{
+    font-family:"Advent Pro", sans-serif;
+    font-size:6vmin;
+}
+
+@media (orientation: portrait) {
+    #P3_app {
+        width: 100vw;
+    }
+
+    #P3_logo {
+        order: -1;
+        /* This will make the div appear at the top */
+    }
+
+    #outerPage {
+        flex-direction: column;
+    }
+}
+
+@media (orientation: landscape) {
+    #P3_app {
+        height: 100vh;
+    }
+
+    #P3_logo {
+        order: 1;
+        /* This will make the div appear on the right */
+    }
+
+    #outerPage {
+        flex-direction: row;
+    }
+}

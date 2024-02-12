@@ -11,10 +11,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="authoring-tool" content="Adobe_Animate_CC">
+<link rel="stylesheet" href="../css/style.css">
 <title>PodCube.online</title>
 <!-- write your code here -->
 <style>
-  #animation_container {
+  #animation_container, #_preload_div_ {
 	position:absolute;
 	margin:auto;
 	left:0;right:0;
@@ -22,128 +23,60 @@
   }
 </style>
 <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-<script src="PodCube.online.js?1707434087412"></script>
 <script>
-// Global Scripts
-	// EVENTS BUS
-function pubSub() {
-	const subscriptions = { }
-	const getNextUniqueId = getIdGenerator()
-	function subscribe(eventName, callback) {
-		const id = getNextUniqueId()
-		if(!subscriptions[eventName]){
-			subscriptions[eventName] = { }
-		}
-		subscriptions[eventName][id] = callback
-		return {
-			unsubscribe: () => {
-				delete subscriptions[eventName][id]
-				if (Object.keys(subscriptions[eventName]).length === 0) delete subscriptions[eventName]
-			}
-		}
-	}
-	function publish(eventName,data){
-		if (!subscriptions[eventName])
-			return
-		Object.keys(subscriptions[eventName]).forEach(key => subscriptions[eventName][key](data))
-	}
-	function getIdGenerator() {
-		let lastId = 0
-		return function getNextUniqueId() {
-			lastId += 1
-			return lastId
-		}
-	}
-	return {
-		publish,
-		subscribe,
-	}
+function LoadGFonts(families, comp) {				
+	var lib=comp.getLibrary();				
+	var googleObject = {type: "Google", loadedFonts: 0, totalFonts: families.length, callOnLoad: lib.gfontAvailable};				
+	for(var i =0; i < families.length; i++)				
+		isFontAvailable(gFontsFamilies[i], googleObject);				
 }
-MSG = pubSub()
-        /* RSS FEED PARSER & ORGANIZER
-		==============================================
-        ============== NOTES  ==========================
-        ================================================
-            * SHOULD PARSE MARKDOWN LINKS
-        ===============================================*/
-        const RSS_URL = "https://pinecast.com/feed/pc";
-        const Transmissions = []
-        //define constructor for episode
-        function Episode(item) {
-            // UNMODIFIED PROPERTIES
-            this.guid = item.querySelector("guid").innerHTML || null;
-            this.pubdate = new Date(item.querySelector("pubDate").innerHTML) || "Data Error";
-            this.audio = item.querySelector("enclosure").getAttribute("url") || "Data Error";
-            // ITEM DESCRIPTION FIELD
-            var _d = item.querySelector("description").innerHTML;
-            //MODIFIED PROPERTIES
-            var _tit = item.querySelector("title").innerHTML || "Data Error";
-            var _mod = lookFor(_d, "PODCUBE MODEL") || "Data Error";
-            var _int = lookFor(_d, "INTEGRITY") || "Data Error";
-            var _ori = lookFor(_d, "ORIGIN") || "Data Error";
-            var _loc = lookFor(_d, "LOCALE") || "Data Error";
-            var _reg = lookFor(_d, "REGION") || "Data Error";
-            var _zon = lookFor(_d, "ZONE") || "Data Error";
-            var _pla = lookFor(_d, "PLANET") || "Data Error";
-            var _dat = lookFor(_d, "DATE") || "Data Error";
-            var _tag = lookFor(_d, "TAGS") || "Data Error";
-            //process date
-            var _datParts = _dat.split("/")
-            _dat = new Date(_datParts[2],_datParts[0]-1,_datParts[1])
-            //process title
-            _tit = _tit.match(/[a-zA-Z]+/g).join(' ')
-            //process tags
-            _tag = _tag.split(", ")
-            //process integrity
-            _int = parseFloat(_int)
-            this.title = _tit
-            this.model = _mod
-            this.integrity = _int
-            this.origin = _ori
-            this.locale = _loc
-            this.region = _reg
-            this.zone = _zon
-            this.planet = _pla
-            this.date = _dat
-            this.tags = _tag
-            return this
-        }
-        function lookFor(desc, property) {
-            var regex = ":: " + property + ": (.*)<\/p>"
-            prop = desc.match(new RegExp(regex));
-            if (prop == null) {
-                return "NULL"
-            } else { return prop[1] }
-        }
-        function getFeed() {
-            fetch(RSS_URL)
-                .then(response => response.text())
-                .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-                .then(data => {
-                    const items = data.querySelectorAll("item");
-                    items.forEach(el => {
-                        Transmissions.push(new Episode(el))
-                    })
-                }
-                );
-        }
-getFeed()
-console.log(Transmissions)
-// AUDIO PLAYBACK MANAGER
-var nowPlaying = null;
-function playAudio(src){
-	if (nowPlaying == null){
-		nowPlaying = new Audio();
-		console.log("nowPlaying was null")
-	}
-console.log(src)
-	nowPlaying.src = src;
-	nowPlaying.load();
-	nowPlaying.addEventListener("canplaythrough", (e)=>{
-		//ready to play
-		nowPlaying.play()
-	});
-}</script>
+function isFontAvailable(font, obj) {				
+	var timeOut = 5000;				
+	var delay = 200;				
+	var interval = 0;				
+	var timeElapsed = 0;				
+	function checkFont() {				
+		var node = document.createElement("span");				
+		node.innerHTML = "giItT1WQy@!-/#";				
+		node.style.position      = "absolute";				
+		node.style.left          = "-1000px";				
+		node.style.top           = "-1000px";				
+		node.style.fontSize      = "300px";				
+		node.style.fontFamily    = "sans-serif";				
+		node.style.fontVariant   = "normal";				
+		node.style.fontStyle     = "normal";				
+		node.style.fontWeight    = "normal";				
+		node.style.letterSpacing = "0";				
+		document.body.appendChild(node);				
+		var width = node.offsetWidth;				
+		node.style.fontFamily = font+","+node.style.fontFamily;				
+		var returnVal = false;				
+		if((node && node.offsetWidth != width) || timeElapsed >=timeOut) {				
+			obj.loadedFonts++;				
+			if(interval)				
+				clearInterval(interval);				
+			obj.callOnLoad(font, obj.totalFonts);				
+			returnVal = true;				
+		}				
+		if(node) {				
+			node.parentNode.removeChild(node);				
+			node = null;				
+		}				
+		timeElapsed += delay;				
+		return returnVal;				
+	}				
+	if(!checkFont()) {				
+		interval = setInterval(checkFont, delay);				
+	}				
+}
+</script>
+<script>
+	var gFontsFamilies = ["Pixelify Sans","Silkscreen","Sixtyfour"];
+</script>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Pixelify+Sans:700&subset=latin">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Silkscreen:regular&subset=latin">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Sixtyfour:regular&subset=latin">
+<script src="PodCube.online.js"></script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 function init() {
@@ -152,12 +85,28 @@ function init() {
 	dom_overlay_container = document.getElementById("dom_overlay_container");
 	var comp=AdobeAn.getComposition("46A5D1D197A275448B5D0C6F2A17AD0E");
 	var lib=comp.getLibrary();
+	try {
+		if(!(typeof gFontsFamilies === 'undefined' || gFontsFamilies === null))
+			LoadGFonts(gFontsFamilies, comp);		
+		if(!(typeof totalTypekitFonts === 'undefined' || totalTypekitFonts === null)) {			
+			var typekitObject = {type: 'Typekit', loadedFonts: 0, totalFonts: totalTypekitFonts, callOnLoad: lib.tfontAvailable};		
+			Typekit.load({
+			async: true,
+			'fontactive': function(family) {
+				isFontAvailable(family, typekitObject);
+				}
+			});
+		}
+	} catch(e) {};
 	handleComplete({},comp);
 }
 function handleComplete(evt,comp) {
 	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
 	var lib=comp.getLibrary();
 	var ss=comp.getSpriteSheet();
+	var preloaderDiv = document.getElementById("_preload_div_");
+	preloaderDiv.style.display = 'none';
+	canvas.style.display = 'block';
 	exportRoot = new lib.PodCubeSitev2();
 	stage = new lib.Stage(canvas);
 	stage.enableMouseOver();	
@@ -168,7 +117,7 @@ function handleComplete(evt,comp) {
 		createjs.Ticker.addEventListener("tick", stage);
 	}	    
 	//Code to support hidpi screens and responsive scaling.
-	AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.makeResponsive(true,'both',true,1,[canvas,preloaderDiv,anim_container,dom_overlay_container]);	
 	AdobeAn.compositionLoaded(lib.properties.id);
 	fnStartAnimation();
 }
@@ -177,9 +126,10 @@ function handleComplete(evt,comp) {
 </head>
 <body onload="init();" style="margin:0px;">
 	<div id="animation_container" style="background-color:rgba(23, 104, 218, 1.00); width:1920px; height:1920px">
-		<canvas id="canvas" width="1920" height="1920" style="position: absolute; display: block; background-color:rgba(23, 104, 218, 1.00);"></canvas>
-		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1920px; height:1920px; position: absolute; left: 0px; top: 0px; display: block;">
+		<canvas id="canvas" width="1920" height="1920" style="position: absolute; display: none; background-color:rgba(23, 104, 218, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1920px; height:1920px; position: absolute; left: 0px; top: 0px; display: none;">
 		</div>
 	</div>
+    <div id='_preload_div_' style='position:absolute; top:0; left:0; display: inline-block; height:1920px; width: 1920px; text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif style='vertical-align: middle; max-height: 100%'/></div>
 </body>
 </html>
