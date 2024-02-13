@@ -5,12 +5,6 @@ createjs.Touch.enable(stage);
 
 
 
-// okay.
-// #endregion
-
-
-
-
 function htmlDecode(input) {
     var doc = new DOMParser().parseFromString(input, "text/html");
     return doc.documentElement.textContent;
@@ -69,7 +63,7 @@ function Episode(item) {
 
     this.title = htmlDecode(_tit)
     this.model = htmlDecode(_mod)
-    this.integrity = htmlDecode(_int)+"%"
+    this.integrity = htmlDecode(_int)
     this.origin = htmlDecode(_ori)
     this.locale = htmlDecode(_loc)
     this.region = htmlDecode(_reg)
@@ -101,7 +95,7 @@ function getFeed() {
             })
         })
         .then(ok => {
-            loadView();
+            MSG.publish('feedReady',0);
         })
 }
 
@@ -110,107 +104,5 @@ getFeed();
 // #endregion
 
 
-const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-};
+//SFX PLAYER
 
-var control = _this.viewMask
-var container = _this.viewMask.viewContainer
-
-//DYNAMICALLY LOAD TRANSMISSIONS
-var T_default = [];
-var offY = 0; // Offset of each transmission, initialized to 0.
-var scrollRate = 15 // the fuckin rate of teh scroll
-var paddingY = 20 // Padding between transmissions
-var lastY; // Variable to store the last Y position of the mouse
-var velocity = 0; // Variable to store the velocity of the drag
-var friction = 0.90; // Variable to store the friction (damping)
-var scale = 0.5; // scale of child elements
-var deadZone = 15;
-var speedMod = 2;
-var isMouseDown = false;
-
-
-//mobile compensation (don't like this implementation... but *shrug*)
-var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-var sensitivity = isMobile ? 0.4 : 0.6;
-
-function loadView() {
-
-    for (let i = 0; i < Transmissions.length; i++) {
-        _e = new lib.T_2();
-        _e.scaleX = container.scaleX
-        _e.scaleY = container.scaleY
-        _e.x = 0;
-        _e.y = offY;
-        offY = offY + (_e.nominalBounds.height * container.scaleY) + paddingY;
-
-        _t = Transmissions[i]
-        _e.episode = _t
-
-        T_default.push(_e);
-        container.addChild(_e);
-    }
-
-    //MSG.publish('T_loadEp')
-
-    upperBoundary = container.y;
-    lowerBoundary = (container.getBounds().height * container.scaleY) * -1;
-
-    control.on("mousedown", function (e) {
-        lastY = stage.mouseY / stage.scaleY; // Store the initial Y position of the mouse
-        velocity = 0;
-        isMouseDown = true;
-
-    });
-
-    control.on("pressmove", function (e) {
-        var currentY = stage.mouseY / stage.scaleY; // Get the current Y position of the mouse
-        var deltaY = currentY - lastY; // Calculate the change in Y position
-
-        // Only update the velocity if the change in Y position is greater than the dead zone
-        if (Math.abs(deltaY) > deadZone) {
-            velocity = deltaY * speedMod; // Add the change in Y position to the velocity
-        }
-
-        lastY = currentY; // Update the last Y position
-
-        container.y += deltaY
-    });
-
-    control.on('pressup', function (e) {
-
-        isMouseDown = false;
-    })
-
-    createjs.Ticker.on("tick", doVelo);
-
-
-}
-
-
-
-function doVelo() {
-    if (!isMouseDown) {
-        container.y += velocity;
-    }
-    // Check if the viewContainer has moved beyond its boundaries
-    if (container.y > upperBoundary) {
-        container.y = upperBoundary;
-        velocity = 0;
-    } else if (container.y < lowerBoundary) {
-        container.y = lowerBoundary;
-        velocity = 0;
-    }
-
-    // Apply friction to the velocity
-    velocity *= friction;
-
-    // If the velocity is very small, set it to 0 to stop the movement
-    if (Math.abs(velocity) < 0.03) {
-        velocity = 0;
-    }
-}

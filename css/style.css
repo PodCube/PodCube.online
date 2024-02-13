@@ -39,7 +39,6 @@ body {
 }
 
 #P3_app {
-    align-content: center;
     flex-grow:0;
     padding:5vmin;
     border: none;
@@ -49,15 +48,23 @@ body {
 
 #P3_logo {
     flex: 0 1 auto;
-    font-family: "Tilt Warp", sans-serif;
-    font-size:10vmin;
+    font-family: "VT323", sans-serif;
+    font-size:15vmin;
     color:#fcfcfc;
+    text-align:center;
+}
+
+#P3_logo p {
+    margin:0;
+}
+
+br {
+    height:50%;
 }
 
 
-
 .p3sub{
-    font-family:"Advent Pro", sans-serif;
+    font-family:"DotGothic16", sans-serif;
     font-size:6vmin;
 }
 
